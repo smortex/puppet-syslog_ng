@@ -9,6 +9,7 @@ class syslog_ng (
   $init_config_hash     = {},
   $manage_init_defaults = false,
   $manage_package       = true,
+  $package_ensure       = $::syslog_ng::params::package_ensure,
   $modules              = [],
   $sbin_path            = '/usr/sbin',
   $user                 = 'root',
@@ -25,7 +26,7 @@ class syslog_ng (
 
   if ($manage_package) {
     package { $::syslog_ng::params::package_name:
-      ensure => present,
+      ensure => $package_ensure,
       before => [
         Concat[$config_file],
         Exec[syslog_ng_reload]
