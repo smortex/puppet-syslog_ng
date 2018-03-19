@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe 'generate_options' do
 
-  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
-
   context "With options" do
     let(:params) {{ 'log_fifo_size' => 2048,
                     'create_dirs' => 'yes'}}

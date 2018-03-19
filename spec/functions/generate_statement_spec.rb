@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'generate_statement' do
 
-    let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
     let(:title) {'r_name'}
     let(:type) {'rewrite'}
     let(:param1_expected) {

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe 'generate_log' do
 
-  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
-
     context "With simple options" do
         let(:title) { 's_gsoc' }
         let(:options) { [

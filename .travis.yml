@@ -1,18 +1,21 @@
 language: ruby
 rvm:
-  - 1.9.2
-script: "rake spec"
+  - 2.1.9
+  - 2.3.4
+  - 2.4.1
+before_script:
+  - bundle install
+  - bundle exec puppet --version
+script:
+  - bundle exec puppet module build
+  - bundle exec puppet module install pkg/*.tar.gz
+  - bundle exec rake spec
 env:
-  - PUPPET_VERSION=3.5.0
-  - PUPPET_VERSION=3.6.0
-  - PUPPET_VERSION=3.7.0
   - PUPPET_VERSION=4.0.0
-
-matrix:
-
-
-notifications:
-  email: false
-gemfile: .gemfile
+  - PUPPET_VERSION=4.5.0
+  - PUPPET_VERSION=4.9.1
+  - PUPPET_VERSION=4.10.10
+  - PUPPET_VERSION=5.4.0
+gemfile: Gemfile
 notifications:
   email: false

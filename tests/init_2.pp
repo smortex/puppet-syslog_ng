@@ -11,6 +11,6 @@
 #
 
 class  { 'syslog_ng': 
-    tmp_config_file => '/tmp/syslog_ng_conf,
+    tmp_config_file => '/tmp/syslog_ng_conf',
     package_name => 'syslog-ng'
 }
