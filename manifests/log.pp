@@ -1,3 +1,4 @@
+#
 define syslog_ng::log (
   $params = []
 ) {

@@ -1,3 +1,4 @@
+#
 class syslog_ng::params {
 
   $options = {
