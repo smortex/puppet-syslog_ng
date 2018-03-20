@@ -5,3 +5,5 @@ module.tar.gz
 pkg/*
 /vendor
 /Gemfile.lock
+/.bundle
+/bin
