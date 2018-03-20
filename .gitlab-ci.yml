@@ -15,6 +15,7 @@ before_script:
 rubocop-2.4.1:
   stage: test_2.4.1
   image: ruby:2.4.1
+  allow_failure: true
   script:
     - bundle exec rake rubocop
 
@@ -43,6 +44,7 @@ rspec-puppet-2.4.1:
 rubocop-2.1.9:
   stage: test_2.1.9
   image: ruby:2.1.9
+  allow_failure: true
   script:
     - bundle exec rake rubocop
 
