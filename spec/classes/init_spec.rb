@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe 'syslog_ng' do
 
-  let(:facts)  {{ :concat_basedir => '/dne',
-                  :osfamily => 'Ubuntu',
-                  :operatingsystem => 'Ubuntu'
+  let(:facts)  {{ concat_basedir: '/dne',
+                  osfamily: 'Debian',
+                  os: { family: 'Debian' },
+                  operatingsystem: 'Ubuntu'
   }}
 
   context 'With not default params' do
@@ -25,9 +26,10 @@ describe 'syslog_ng' do
     let(:params) {{
       :manage_init_defaults => true
     }}
-    let(:facts)  {{ :concat_basedir => '/dne',
-                    :osfamily => 'RedHat',
-                    :operatingsystem => 'RedHat'
+    let(:facts)  {{ concat_basedir: '/dne',
+                    osfamily: 'RedHat',
+                    os: { family: 'RedHat' },
+                    operatingsystem: 'RedHat'
     }}
     it {
       should contain_package('syslog-ng')

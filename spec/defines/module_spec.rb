@@ -9,7 +9,7 @@ describe 'syslog_ng::module', :type => 'define' do
   } end
   let :facts do
      default_facts.merge(
-       { :osfamily => 'Debian' }
+       { osfamily: 'Debian', os: { family: 'Debian' } }
      )
   end
   context "When overriding module_prefix" do
@@ -22,7 +22,7 @@ describe 'syslog_ng::module', :type => 'define' do
   context "When osfamily is RedHat" do
     let :facts do
       default_facts.merge(
-        { :osfamily => 'RedHat' }
+        { osfamily: 'RedHat', os: { family: 'RedHat' } }
       )
     end
     let :pre_condition do

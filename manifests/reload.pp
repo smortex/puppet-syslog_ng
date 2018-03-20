@@ -3,7 +3,7 @@ class syslog_ng::reload (
   $syntax_check_before_reloads = true
 ) {
 
-  include syslog_ng::params
+  include syslog_ng
 
   $config_file     = $::syslog_ng::config_file
   $exec_path = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:'
