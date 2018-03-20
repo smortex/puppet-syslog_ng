@@ -122,7 +122,7 @@ You can install it following these steps:
  ```
  3. Get dependencies
  ```
- bundle install
+ $ bundle install
  ```
  4. Build a package:
  ```
@@ -131,7 +131,7 @@ You can install it following these steps:
 This will create a `tar.gz` file under the `pkg` directory. Now you should be able
 to install the module:
  ```
- # bundle exec puppet module install pkg/ccin2p3-syslog_ng-VERSION.tar.gz
+ $ bundle exec puppet module install pkg/ccin2p3-syslog_ng-VERSION.tar.gz
  ```
 
 ### What syslog_ng affects
