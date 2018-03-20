@@ -36,25 +36,24 @@ class syslog_ng (
   }
 
   @concat { $config_file:
-    ensure => present,
-    path   => $config_file,
-    owner  => $user,
-    group  => $group,
-    warn   => true,
+    ensure         => present,
+    path           => $config_file,
+    owner          => $user,
+    group          => $group,
+    warn           => true,
     ensure_newline => true,
   }
-  
+
   class {'syslog_ng::reload':
     syntax_check_before_reloads => $syntax_check_before_reloads
   }
-  
 
   notice("config_file: ${config_file}")
 
   concat::fragment {'syslog_ng header':
-    target => $config_file,
+    target  => $config_file,
     content => $config_file_header,
-    order => '01'
+    order   => '01'
   }
 
   if $manage_init_defaults {
@@ -62,7 +61,7 @@ class syslog_ng (
     file {$init_config_file:
       ensure  => present,
       content => template('syslog_ng/init_config_file.erb'),
-      notify => Exec[syslog_ng_reload]
+      notify  => Exec[syslog_ng_reload]
     }
   }
 

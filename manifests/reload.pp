@@ -21,7 +21,7 @@ class syslog_ng::reload (
     try_sleep   => 1,
     logoutput   => true,
   }
-  
+
   if $syntax_check_before_reloads {
     Concat <| title == $config_file |> { validate_cmd => $syslog_ng_syntax_check_cmd }
   } else {

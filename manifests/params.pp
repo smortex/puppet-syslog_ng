@@ -11,7 +11,7 @@ class syslog_ng::params {
     'dir_perm' => '0755',
     'use_dns' => 'no'
   }
-  
+
   case $::osfamily {
     'Redhat', 'Amazon': {
       $package_name = 'syslog-ng'
