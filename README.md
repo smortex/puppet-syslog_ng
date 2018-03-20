@@ -1,12 +1,12 @@
 # syslog_ng
 
-[![Build Status](https://travis-ci.org/ihrwein/puppet-syslog_ng.png?branch=master)](https://travis-ci.org/ihrwein/puppet-syslog_ng)
+[![Build Status](https://travis-ci.org/ccin2p3/puppet-syslog_ng.png?branch=master)](https://travis-ci.org/ccin2p3/puppet-syslog_ng)
 
 #### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
-    * [Configuration syntax](#configuration-syntax)
+    * [Configuration syntax](#statement_syntax)
 3. [Setup - The basics of getting started with syslog_ng](#setup)
     * [Puppet Forge](#puppet-forge)
     * [Installing from source](#installing-from-source)
@@ -76,7 +76,7 @@ syslog_ng::source { 's_gsoc':
 ### <a name="statement_syntax"></a> Configuration syntax
 Every statement has the same layout. They can accept a `params` parameter, which
 can be a hash or an array of hashes. Each hash should have a `type` and `options`
-key or you can use a shorter form like [here](#shorter_form).
+key or you can use a [shorter form](#shorter_form).
 
 The value of the `type` represents the type of the statement, in case of a
 source this can be `file`, `tcp` and so on.
@@ -103,29 +103,35 @@ You can find a lot of examples under the `tests` and `spec` directories. The
 ## Setup
 
 ### Puppet Forge
-This module is published on Puppet Forge at [here](https://forge.puppetlabs.com/ihrwein/syslog_ng).
+This module is published on [Puppet Forge](https://forge.puppetlabs.com/ccin2p3/syslog_ng).
+It used to be under the [ihrwein](https://forge.puppetlabs.com/ihrwein/syslog_ng) namespace, but the original author kindly accepted to hand it over.
 
 ### Installing from source
 You can install it following these steps:
- 0. Make sure you have the required dependencies:
-  * rake
-  * ruby
+
+ 0. Make sure you have the required dependencies
+ * ruby
+ * bundler
  1. Clone the source code into a directory:
  ```
- $ git clone git@github.com:ihrwein/puppet-syslog_ng.git
+ $ git clone https://github.com/ccin2p3/puppet-syslog_ng.git
  ```
  2. Make sure you are on master branch:
  ```
  $ git checkout master
  ```
- 3. Build a package:
+ 3. Get dependencies
  ```
- $ rake build
+ bundle install
+ ```
+ 4. Build a package:
+ ```
+ $ bundle exec puppet module build
  ```
 This will create a `tar.gz` file under the `pkg` directory. Now you should be able
 to install the module:
  ```
- # puppet module install -f ihrwein-syslog_ng-VERSION.tar.gz
+ # bundle exec puppet module install pkg/ccin2p3-syslog_ng-VERSION.tar.gz
  ```
 
 ### What syslog_ng affects
@@ -133,8 +139,6 @@ to install the module:
   * that creates the necessary directories on your system, including `/etc/syslog-ng`.
   * If another `syslog` daemon is installed, it will be removed by your package manager.
 * purges the content of `/etc/syslog-ng/syslog-ng.conf`
-* creates a temporary file under `/tmp` with the name of `syslog-ng.conf.tmp`. It
- always uses this file and will not delete it.
 
 ### Getting started with syslog_ng
 If you are not familiar with `syslog-ng`, I suggest you to take a look at the
@@ -158,30 +162,30 @@ The fact `syslog_ng_version` contains the installed version string *e.g.* `3.7.1
 
 ### Classes and defined types
 
-####Class: `syslog_ng`
+#### Class: `syslog_ng`
 The main class of this module. By including it you get an installed `syslog-ng`
 with default configuration on your system.
 
 **Parameters within `syslog_ng`:**
 
-#####`config_file`
+##### `config_file`
 Configures the path of the configuration file. Defaults to `/etc/syslog-ng/syslog-ng.conf` on
 all operation systems.
-#####`manage_package`
+##### `manage_package`
 Controls if the module is managing the package resource or not. Use `false` if you are already handling this in your manifests. Defaults to `true`
-#####`manage_init_defaults`
+##### `manage_init_defaults`
 Controls if the module is managing the init script's config file (See `init_config_file` and `init_config_hash`). Defaults to `true`
-#####`modules`
+##### `modules`
 Configures additional syslog-ng modules. If `manage_package` is set to `true` this will also install the corresponding packages, *e.g.* `syslog-ng-riemann` on RedHat if
 `modules = ['riemann']`.
-#####`sbin_path`
+##### `sbin_path`
 Configures the path, where `syslog-ng` and `syslog-ng-ctl` binaries can be found.
 Defaults to `/usr/sbin`.
-#####`user`
+##### `user`
 Configures `syslog-ng` to run as `user`.
-#####`group`
+##### `group`
 Configures `syslog-ng` to run as `group`.
-#####`syntax_check_before_reloads`
+##### `syntax_check_before_reloads`
 The module always checks the syntax of the generated configuration. If it is not OK,
  the main configuration (usually `/etc/syslog-ng/syslog-ng.conf`) will not be
  overwritten, but you can disable this behavior by setting this parameter to false.
@@ -190,7 +194,7 @@ Path to the init script configuration file, defaults to `/etc/sysconfig/syslog-n
 ##### `init_config_hash`
 Hash of init configuration options to put into `init_config_file`. This has OS specific defaults which will be merged to user specified value.
 
-####Defined type: `syslog_ng::config`
+#### Defined type: `syslog_ng::config`
 Some elements of the syslog-ng DSL are not supported by this module (mostly
   the boolean operators in filters) so you may want to keep some configuration
   snippets in their original form. This type lets you write texts into the configuration
@@ -207,17 +211,17 @@ syslog_ng::config {'version':
 }
 ```
 **Parameters within `syslog_ng::config`:**
-#####`content`
+##### `content`
 Configures the text which must be written into the configuration file. A
  newline character is automatically appended to its end.
 
-#####`order`
+##### `order`
 Sets the order of this snippet in the configuration file. See
 [Implementation](#implementation). If you want to write the version line, the
 `order => '02'` is suggested, because the auto generated header has order '01'.
 
 
-####Defined type: `syslog_ng::destination`
+#### Defined type: `syslog_ng::destination`
 Creates a destination in your configuration.
 ```puppet
 syslog_ng::destination { 'd_udp':
@@ -232,11 +236,11 @@ syslog_ng::destination { 'd_udp':
 }
 ```
 **Parameters within `syslog_ng::destination`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax described
 [here](#statement_syntax).
 
-####Defined type: `syslog_ng::filter`
+#### Defined type: `syslog_ng::filter`
 Creates a filter in your configuration. It **does not support binary operators**,
  such as `and` or `or`. Please, use a `syslog_ng::config` if you need this
  functionality.
@@ -252,11 +256,11 @@ syslog_ng::filter {'f_tag_filter':
 }
 ```
 **Parameters within `syslog_ng::filter`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax described
 [here](#statement_syntax).
 
-####Defined type: `syslog_ng::log`
+#### Defined type: `syslog_ng::log`
 Creates log paths in your configuration. It can create `channels`, `junctions`
  and reference already defined `sources`, `destinations`, etc.  The syntax is a
  little bit different then the one previously described under statements.
@@ -287,11 +291,11 @@ syslog_ng::log {'l2':
 }
 ```
 **Parameters within `syslog_ng::log`:**
-#####`params`
+##### `params`
 The syntax is a bit different, but you can find examples under the `tests` directory.
 
 
-####Defined type: `syslog_ng::options`
+#### Defined type: `syslog_ng::options`
 Creates a global options statement. Currently it is not a class, so you should
  not declare it multiple times! It is not defined as a class, so you can declare it as other similar types.
 
@@ -304,12 +308,12 @@ syslog_ng::options { "global_options":
 }
 ```
 **Parameters within `syslog_ng::options`:**
-#####`options`
+##### `options`
 A hash containing string keys and string values. In the generated configuration
 the keys will appear in alphabetical order.
 
 
-####Class: `syslog_ng::params`
+#### Class: `syslog_ng::params`
 Contains some basic constants which are used during the configuration generation.
  It is the base class of `syslog_ng`. You should not use this class directly, it
  is part of the inner implementation.
@@ -334,17 +338,17 @@ syslog_ng::parser {'p_hostname_segmentation':
 }
 ```
 **Parameters within `syslog_ng::parser`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax which is described
 [here](#statement_syntax).
 
 
-####Class: `syslog_ng::reload`
+#### Class: `syslog_ng::reload`
 Contains a logic, which is able to reload `syslog-ng`. You should not use this
 class directly, it is part of the inner implementation.
 
 
-####Defined type: `syslog_ng::rewrite`
+#### Defined type: `syslog_ng::rewrite`
 Creates one or more rewrite rules in your configuration.
 
 ```puppet
@@ -361,12 +365,12 @@ syslog_ng::rewrite{'r_rewrite_subst':
 }
 ```
 **Parameters within `syslog_ng::rewrite`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax which is described
 [here](#statement_syntax).
 
 
-####Defined type: `syslog_ng::source`
+#### Defined type: `syslog_ng::source`
 Creates a source in your configuration.
 
 ```puppet
@@ -408,12 +412,12 @@ syslog_ng::source {'s_external':
 }
 ```
 **Parameters within `syslog_ng::source`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax which is described
 [here](#statement_syntax).
 
 
-####Defined type: `syslog_ng::template`
+#### Defined type: `syslog_ng::template`
 Creates one or more templates in your configuration.
 
 ```puppet
@@ -435,7 +439,7 @@ syslog_ng::template {'t_demo_filetemplate':
 }
 ```
 **Parameters within `syslog_ng::template`:**
-#####`params`
+##### `params`
 An array of hashes or a single hash. It uses the syntax which is described
 [here](#statement_syntax).
 
@@ -494,6 +498,26 @@ The following platforms are currently tested (in Docker containers):
 If you use it on an other platform, please let me know about it!
 
 ## Development
+
+### Unit tests
+
+```
+bundle install
+bundle exec rake spec
+```
+
+or alternatively
+
+```
+pdk test unit
+```
+
+### Smoke tests
+
+There are some examples in the `tests` directory.
+These can be tested using `puppet apply tests/<test>.pp`.
+
+### Docker
 
 You can run the tests locally on multiple platform at the same time. Check the subdirs undes `docker/` about the currently used platforms and Ruby versions.
 
