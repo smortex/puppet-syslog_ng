@@ -6,4 +6,4 @@ PuppetLint.configuration.fail_on_warnings
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_autoloader_layout')
 PuppetLint.configuration.send('disable_documentation')
-
+PuppetLint.configuration.ignore_paths = ["vendor/**","pkg/**","lib/**","bin/**","tests/**"]
