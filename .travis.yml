@@ -11,11 +11,15 @@ script:
   - bundle exec puppet module install pkg/*.tar.gz
   - bundle exec rake spec
 env:
-  - PUPPET_GEM_VERSION="~> 4.0.0"
-  - PUPPET_GEM_VERSION="~> 4.5.0"
-  - PUPPET_GEM_VERSION="~> 4.9.1"
-  - PUPPET_GEM_VERSION="~> 4.10.10"
-  - PUPPET_GEM_VERSION="~> 5.4.0"
+  matrix:
+    - PUPPET_GEM_VERSION="~> 4.9.0"   FIXTURES_YML=.fixtures-old.yml
+    - PUPPET_GEM_VERSION="~> 4.9.1"   FIXTURES_YML=.fixtures-old.yml
+    - PUPPET_GEM_VERSION="~> 4.10.10" FIXTURES_YML=.fixtures-old.yml
+    - PUPPET_GEM_VERSION="~> 5.4.0"   FIXTURES_YML=.fixtures-old.yml
+    - PUPPET_GEM_VERSION="~> 4.9.0"   FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 4.9.1"   FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 4.10.10" FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 5.4.0"   FIXTURES_YML=.fixtures.yml
 gemfile: Gemfile
 notifications:
   email: false
