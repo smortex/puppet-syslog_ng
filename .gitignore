@@ -3,7 +3,12 @@ spec/fixtures/modules/stdlib
 *.swp
 module.tar.gz
 pkg/*
-/vendor
+/vendor/
 /Gemfile.lock
 /.bundle
-/bin
+/vendor/build
+/TODO
+/bin/
+convert_report.txt
+lib/facter/syslog_ng.rb
+spec/spec.opts
