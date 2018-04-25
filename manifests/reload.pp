@@ -21,6 +21,7 @@ class syslog_ng::reload (
     refreshonly => true,
     try_sleep   => 1,
     logoutput   => true,
+    require     => Service["${::syslog_ng::service_name}"],
   }
 
   if $syntax_check_before_reloads {
