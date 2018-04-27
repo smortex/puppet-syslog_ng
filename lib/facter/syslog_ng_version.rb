@@ -1,9 +1,10 @@
 Facter.add(:syslog_ng_version) do
   setcode do
-    if Facter::Util::Resolution.which('syslog-ng')
-      Facter::Util::Resolution.exec("syslog-ng --version").lines.find { |l| l =~ /^syslog-ng/}.split(' ')[1]
+    syslog_ng = Facter.value(:syslog_ng)
+    if syslog_ng.nil? || syslog_ng.empty?
+      nil
     else
-      "3.5"
+      syslog_ng['Installer-Version']
     end
   end
 end

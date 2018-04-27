@@ -10,5 +10,4 @@ pkg/*
 /TODO
 /bin/
 convert_report.txt
-lib/facter/syslog_ng.rb
 spec/spec.opts
