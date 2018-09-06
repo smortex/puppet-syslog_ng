@@ -1,7 +1,10 @@
 # 2018-??-?? Release 2.?.?
 
+# 2018-09-06 Release 2.1.0
+
 * add structured fact
 * fix bug where reload was triggered when service wasn't running
+* add datatype
 
 # 2018-03-20 Release 2.0.0
 
