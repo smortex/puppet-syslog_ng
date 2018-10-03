@@ -40,5 +40,17 @@ describe 'syslog_ng::module', :type => 'define' do
       it { should contain_package('syslog-ng-mod-foo').with_ensure('present') }
     end
   end
+  context "When osfamily is Suse" do
+    let :facts do
+      default_facts.merge(
+        { osfamily: 'Suse', os: { family: 'Suse' } }
+      )
+    end
+    let :pre_condition do
+      'include syslog_ng'
+    end
+    it { should compile }
+    it { should contain_package('syslog-ng-foo').with_ensure('present') }
+  end
 end
 
