@@ -39,6 +39,23 @@ describe 'syslog_ng' do
       should contain_file('/etc/sysconfig/syslog-ng')
     }
   end
+  context 'On SLES with init_defaults set to true' do
+    let(:params) {{
+      :manage_init_defaults => true
+    }}
+    let(:facts)  {{ concat_basedir: '/dne',
+                    osfamily: 'Suse',
+                    os: { family: 'Suse' },
+                    operatingsystem: 'SLES'
+    }}
+    it {
+      should contain_package('syslog-ng')
+      should contain_service('syslog-ng')
+    }
+    it {
+      should contain_file('/etc/sysconfig/syslog-ng')
+    }
+  end
   context 'When asked not to manage package' do
     let(:params) {{
       :manage_package => false
