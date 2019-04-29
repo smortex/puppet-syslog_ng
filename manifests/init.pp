@@ -10,6 +10,7 @@ class syslog_ng (
   $config_file_header,
   $package_ensure,
   $manage_init_defaults = false,
+  $manage_repo          = false,
   $manage_package       = true,
   $modules              = [],
   $sbin_path            = '/usr/sbin',
@@ -25,6 +26,8 @@ class syslog_ng (
   validate_hash($init_config_hash)
 
   if ($manage_package) {
+    include syslog_ng::repo
+
     package { $package_name:
       ensure => $package_ensure,
       before => [
