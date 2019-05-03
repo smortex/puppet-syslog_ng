@@ -1,6 +1,11 @@
-#import 'nodes.pp'
-
-include syslog_ng
+class  { 'syslog_ng':
+  config_file                 => '/tmp/syslog-ng.conf',
+  manage_package              => false,
+  syntax_check_before_reloads => false,
+  user                        => 'fwernli',
+  group                       => 'fwernli',
+  manage_init_defaults        => false,
+}
 
 # the header written by this module has order == 1, so the version must be 02
 syslog_ng::config {'version':
