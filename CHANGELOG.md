@@ -1,4 +1,7 @@
-# 2018-??-?? Release 2.?.?
+# 2020-09-22 Release 2.2.1
+
+* Add support for SLES
+* Add repo management for Debian
 
 # 2018-09-06 Release 2.1.0
 
