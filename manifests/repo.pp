@@ -35,8 +35,9 @@ class syslog_ng::repo {
             deb => true,
             src => false,
           },
-          before   => Package[$syslog_ng::package_name],
         }
+
+        Class['apt::update'] -> Package <| tag == 'syslog_ng' |>
       }
     }
   }
