@@ -4,7 +4,7 @@ describe 'syslog_ng' do
 
   let(:facts)  {{ concat_basedir: '/dne',
                   osfamily: 'Debian',
-                  os: { family: 'Debian' },
+                  os: { family: 'Debian', name: 'Ubuntu', release: { full: '14.04', major: '14.04' } },
                   operatingsystem: 'Ubuntu'
   }}
 
@@ -22,22 +22,48 @@ describe 'syslog_ng' do
       should contain_file('/etc/default/syslog-ng')
     }
   end
-  context 'On RedHat with init_defaults set to true' do
-    let(:params) {{
-      :manage_init_defaults => true
-    }}
+
+  context 'with unofficial repo' do
+    let(:params) do
+      {
+        manage_repo: true,
+      }
+    end
+
+    it { should compile }
+    it { should contain_apt__source('syslog-ng-obs') }
+  end
+
+  context 'On RedHat' do
     let(:facts)  {{ concat_basedir: '/dne',
                     osfamily: 'RedHat',
-                    os: { family: 'RedHat' },
+                    os: { family: 'RedHat', name: 'RedHat', release: { major: '7' } },
                     operatingsystem: 'RedHat'
     }}
-    it {
-      should contain_package('syslog-ng')
-      should contain_service('syslog-ng')
-    }
-    it {
-      should contain_file('/etc/sysconfig/syslog-ng')
-    }
+
+    context 'with init_defaults set to true' do
+      let(:params) {{
+        :manage_init_defaults => true
+      }}
+      it {
+        should contain_package('syslog-ng')
+        should contain_service('syslog-ng')
+      }
+      it {
+        should contain_file('/etc/sysconfig/syslog-ng')
+      }
+    end
+
+    context 'with unofficial repo' do
+      let(:params) do
+        {
+          manage_repo: true,
+        }
+      end
+
+      it { should compile }
+      it { should contain_yumrepo('czanik-syslog-ng-githead') }
+    end
   end
   context 'On SLES with init_defaults set to true' do
     let(:params) {{

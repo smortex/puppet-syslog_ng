@@ -135,6 +135,9 @@ to install the module:
  ```
 
 ### What syslog_ng affects
+* It setup a repository with recent syslog-ng releases (only on RedHat and
+  Debian based operating systems and if `$syslog_ng::manage_repo` is set to
+  `true`)
 * It installs the `syslog-ng` or `syslog-ng-core` package
   * that creates the necessary directories on your system, including `/etc/syslog-ng`.
   * If another `syslog` daemon is installed, it will be removed by your package manager.
@@ -171,6 +174,8 @@ with default configuration on your system.
 ##### `config_file`
 Configures the path of the configuration file. Defaults to `/etc/syslog-ng/syslog-ng.conf` on
 all operation systems.
+##### `manage_repo`
+Controls if the module is managing the unofficial repositories of syslog-ng packages.  Use `true` if you want to use the latest version of syslog-ng from the [unofficial Debian repository](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) or [unofficial RedHat repository](https://www.syslog-ng.com/community/b/blog/posts/installing-latest-syslog-ng-on-rhel-and-other-rpm-distributions).  Defaults to `false`.
 ##### `manage_package`
 Controls if the module is managing the package resource or not. Use `false` if you are already handling this in your manifests. Defaults to `true`
 ##### `manage_init_defaults`
